@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/bold_name_widget.dart';
+import 'package:flutter_application_1/my_fancy_bottom_nav_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:english_words/english_words.dart';
 
@@ -63,32 +64,29 @@ class MyHomePage extends StatelessWidget {
           children: <Widget>[
             BoldNameWidget(name: appState.current),
             SizedBox(height: 16),
-            ElevatedButton(
-                onPressed: () {
-                  appState.getNext();
-                },
-                child: Text('Next')),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    appState.getNext();
+                  },
+                  child: Text('Next'),
+                ),
+                SizedBox(width: 8),
+                IconButton(
+                  icon: Icon(Icons.favorite_border_outlined),
+                  onPressed: () {
+                    appState.addToFavorites(appState.current);
+                  },
+                ),
+              ],
+            ),
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        onTap: (itemId) => {
-          if (itemId == 0)
-            {Navigator.of(context).popAndPushNamed('name_generator')}
-          else
-            {Navigator.of(context).popAndPushNamed('favorites')}
-        },
-        currentIndex: 0,
-        items: [
-          BottomNavigationBarItem(
-            label: "name_generator",
-            icon: Icon(Icons.cyclone),
-          ),
-          BottomNavigationBarItem(
-            label: "favorites",
-            icon: Icon(Icons.favorite),
-          ),
-        ],
+      bottomNavigationBar: MyFancyBottomNavBar(
+        currentId: 0,
       ),
     );
   }
@@ -112,28 +110,8 @@ class MyFavoritesPage extends StatelessWidget {
               )),
         ],
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        onTap: (itemId) => {
-          if (itemId == 0)
-            {Navigator.of(context).popAndPushNamed('name_generator')}
-          else
-            {Navigator.of(context).popAndPushNamed('favorites')}
-        },
-        currentIndex: 1,
-        items: [
-          BottomNavigationBarItem(
-            label: "name_generator",
-            icon: Icon(Icons.cyclone),
-            activeIcon: Icon(
-              Icons.cyclone,
-              weight: theme.iconTheme.weight,
-            ),
-          ),
-          BottomNavigationBarItem(
-            label: "favorites",
-            icon: Icon(Icons.favorite),
-          ),
-        ],
+      bottomNavigationBar: MyFancyBottomNavBar(
+        currentId: 1,
       ),
     );
   }
