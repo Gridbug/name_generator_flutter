@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/bold_name_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:english_words/english_words.dart';
 
@@ -51,15 +52,8 @@ class MyHomePage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                shape: BoxShape.circle,
-                color: Colors.deepOrange,
-              ),
-              padding: const EdgeInsets.all(8),
-              child: Text(appState.current.asLowerCase),
-            ),
+            BoldNameWidget(name: appState.current.asLowerCase),
+            SizedBox(height: 16),
             ElevatedButton(
                 onPressed: () {
                   appState.getNext();
