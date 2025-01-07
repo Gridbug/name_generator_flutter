@@ -9,13 +9,26 @@ class MyFavoritesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
 
-    return Column(
-      children: [
-        ...appState.favoritePairs.indexed.map((idAndWordpair) => TextButton(
-              onPressed: () {},
-              child: Text(idAndWordpair.$2.asLowerCase),
-            )),
-      ],
+    return SafeArea(
+      child: Center(
+        child: Column(
+          children: [
+            ...appState.favoritePairs.indexed.map(
+              (idAndWordpair) => Row(
+                children: [
+                  Text(idAndWordpair.$2.asLowerCase),
+                  IconButton(
+                    onPressed: () {
+                      appState.removeFromFavorites(idAndWordpair.$1);
+                    },
+                    icon: Icon(Icons.close),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

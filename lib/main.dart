@@ -57,6 +57,10 @@ class MyAppState extends ChangeNotifier {
   }
 
   void removeFromFavorites(final int id) {
+    if (favoritePairs[id] == current && currentIsFavorite) {
+      currentIsFavorite = false;
+    }
+
     favoritePairs.removeAt(id);
     notifyListeners();
   }
