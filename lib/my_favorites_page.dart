@@ -12,38 +12,36 @@ class MyFavoritesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
 
-    return SafeArea(
-      child: Align(
-        alignment: Alignment.bottomRight,
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            verticalDirection: VerticalDirection.up,
-            children: [
-              SizedBox(height: 20),
-              ...appState.favoritePairs.indexed.map(
-                (idAndWordpair) => Card(
-                  margin: EdgeInsets.symmetric(horizontal: 20, vertical: 4),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      SizedBox(width: 20),
-                      Text(
-                        idAndWordpair.$2.asLowerCase,
-                        style: Theme.of(context).textTheme.bodyLarge,
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          appState.removeFromFavorites(idAndWordpair.$1);
-                        },
-                        icon: Icon(Icons.close),
-                      ),
-                    ],
-                  ),
+    return Align(
+      alignment: Alignment.bottomRight,
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          verticalDirection: VerticalDirection.up,
+          children: [
+            SizedBox(height: 20),
+            ...appState.favoritePairs.indexed.map(
+              (idAndWordpair) => Card(
+                margin: EdgeInsets.symmetric(horizontal: 20, vertical: 4),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SizedBox(width: 20),
+                    Text(
+                      idAndWordpair.$2.asLowerCase,
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        appState.removeFromFavorites(idAndWordpair.$1);
+                      },
+                      icon: Icon(Icons.close),
+                    ),
+                  ],
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
