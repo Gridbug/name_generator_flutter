@@ -4,6 +4,9 @@ import 'package:flutter_application_1/main.dart';
 import 'package:provider/provider.dart';
 
 class GeneratorPage extends StatelessWidget {
+  static const name = 'Generator';
+  static const icon = Icons.cyclone;
+
   @override
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();

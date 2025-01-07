@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/bold_name_widget.dart';
 import 'package:flutter_application_1/generator_page.dart';
 import 'package:flutter_application_1/my_favorites_page.dart';
 import 'package:provider/provider.dart';
@@ -99,12 +98,12 @@ class _MyAppLayoutWidgetState extends State<MyAppLayoutWidget> {
                     extended: true,
                     destinations: [
                       NavigationRailDestination(
-                        icon: Icon(Icons.home),
-                        label: Text('Home'),
+                        icon: Icon(GeneratorPage.icon),
+                        label: Text(GeneratorPage.name),
                       ),
                       NavigationRailDestination(
-                        icon: Icon(Icons.favorite),
-                        label: Text('Favorites'),
+                        icon: Icon(MyFavoritesPage.icon),
+                        label: Text(MyFavoritesPage.name),
                       ),
                     ],
                     selectedIndex: selectedPageId,
@@ -142,12 +141,12 @@ class _MyAppLayoutWidgetState extends State<MyAppLayoutWidget> {
                 currentIndex: selectedPageId,
                 items: [
                   BottomNavigationBarItem(
-                    label: "name_generator",
-                    icon: Icon(Icons.cyclone),
+                    label: GeneratorPage.name,
+                    icon: Icon(GeneratorPage.icon),
                   ),
                   BottomNavigationBarItem(
-                    label: "favorites",
-                    icon: Icon(Icons.favorite),
+                    label: MyFavoritesPage.name,
+                    icon: Icon(MyFavoritesPage.icon),
                   ),
                 ],
               ),
