@@ -12,6 +12,12 @@ class MyFavoritesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
 
+    if (appState.favoritePairs.isEmpty) {
+      return Center(
+        child: Text('No favorites yet.'),
+      );
+    }
+
     return Align(
       alignment: Alignment.bottomRight,
       child: SingleChildScrollView(
