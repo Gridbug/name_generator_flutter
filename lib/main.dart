@@ -138,6 +138,7 @@ class _MyAppLayoutWidgetState extends State<MyAppLayoutWidget> {
                     selectedPageId = itemId;
                   });
                 },
+                elevation: 0,
                 currentIndex: selectedPageId,
                 items: [
                   BottomNavigationBarItem(

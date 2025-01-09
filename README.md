@@ -1,16 +1,17 @@
-# flutter_application_1
+# Name generator on Flutter
 
-A new Flutter project.
+Flutter project that generates random phrases (started from codelab https://codelabs.developers.google.com/codelabs/flutter-codelab-first)
+But then upgraded with better responsive navigation, navigaton animations and permanent storage.
 
-## Getting Started
+## Dependencies
 
-This project is a starting point for a Flutter application.
+- Flutter SDK 3.27
+- [english_words package v4.0.0](https://pub.dev/packages/english_words)
 
-A few resources to get you started if this is your first Flutter project:
+## How to build
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
+## Screenshots
+
+![Android screenshot](./android_screenshots_0.0.1+2.png)
