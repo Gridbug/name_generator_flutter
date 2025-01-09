@@ -14,4 +14,4 @@ But then upgraded with better responsive navigation, navigaton animations and pe
 
 ## Screenshots
 
-![Android screenshot](./android_screenshots_0.0.1+2.png)
+<img src="./android_screenshots_0.0.1+2.png" alt="Android screenshots" style="height: 500px"/>
