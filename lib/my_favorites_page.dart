@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/main.dart';
+import 'package:flutter_application_1/wordpair_generator_state.dart';
 import 'package:provider/provider.dart';
 
 class MyFavoritesPage extends StatelessWidget {
@@ -10,7 +11,7 @@ class MyFavoritesPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var appState = context.watch<MyAppState>();
+    var appState = context.watch<WordPairGeneratorState>();
 
     if (appState.favoritePairs.isEmpty) {
       return Center(

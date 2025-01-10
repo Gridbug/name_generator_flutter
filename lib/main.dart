@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/generator_page.dart';
 import 'package:flutter_application_1/my_favorites_page.dart';
+import 'package:flutter_application_1/wordpair_generator_state.dart';
 import 'package:provider/provider.dart';
 import 'package:english_words/english_words.dart';
 
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => MyAppState(),
+      create: (context) => WordPairGeneratorState(),
       child: MaterialApp(
         title: 'Namer App',
         theme: ThemeData(
@@ -24,44 +25,6 @@ class MyApp extends StatelessWidget {
         home: MyAppLayoutWidget(),
       ),
     );
-  }
-}
-
-class MyAppState extends ChangeNotifier {
-  WordPair current = WordPair.random();
-  bool currentIsFavorite = false;
-
-  List<WordPair> favoritePairs = [];
-
-  void getNext() {
-    current = WordPair.random();
-    currentIsFavorite = false;
-    notifyListeners();
-  }
-
-  void toggleFavoriteStatus() {
-    if (currentIsFavorite) {
-      favoritePairs.remove(current);
-    } else {
-      favoritePairs.add(current);
-    }
-
-    currentIsFavorite = !currentIsFavorite;
-
-    notifyListeners();
-  }
-
-  bool isCurrentFavorite() {
-    return currentIsFavorite;
-  }
-
-  void removeFromFavorites(final int id) {
-    if (favoritePairs[id] == current && currentIsFavorite) {
-      currentIsFavorite = false;
-    }
-
-    favoritePairs.removeAt(id);
-    notifyListeners();
   }
 }
 

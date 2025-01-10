@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/bold_name_widget.dart';
 import 'package:flutter_application_1/main.dart';
+import 'package:flutter_application_1/wordpair_generator_state.dart';
 import 'package:provider/provider.dart';
 
 class GeneratorPage extends StatelessWidget {
@@ -9,7 +10,7 @@ class GeneratorPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var appState = context.watch<MyAppState>();
+    var appState = context.watch<WordPairGeneratorState>();
 
     IconData favoriteButtonIcon = appState.isCurrentFavorite()
         ? Icons.favorite
