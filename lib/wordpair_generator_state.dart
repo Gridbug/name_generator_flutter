@@ -3,11 +3,16 @@ import 'dart:collection';
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 
+typedef RemovedItemBuilder<T> = Widget Function(
+    T item, BuildContext context, Animation<double> animation);
+
 class WordPairGeneratorState extends ChangeNotifier {
   WordPair current = WordPair.random();
   bool currentIsFavorite = false;
 
   List<WordPair> favoritePairs = [];
+  GlobalKey favoritesListKey = GlobalKey();
+  RemovedItemBuilder<WordPair>? removedItemBuilder;
 
   List<WordPair> history = [];
   HashMap<int, int> favoriteIdByHistoryId = HashMap();
@@ -38,10 +43,25 @@ class WordPairGeneratorState extends ChangeNotifier {
   }
 
   void toggleCurrentFavoriteStatus() {
+    var animatedList = favoritesListKey?.currentState as AnimatedListState?;
+
     if (currentIsFavorite) {
       favoritePairs.remove(current);
+
+      if (removedItemBuilder != null) {
+        animatedList?.removeItem(
+          favoritePairs.length - 1,
+          (BuildContext context, Animation<double> animation) {
+            return removedItemBuilder!(current, context, animation);
+          },
+        );
+      } else {
+        //Process the error, maybe :)
+      }
     } else {
       favoritePairs.add(current);
+
+      animatedList?.insertItem(favoritePairs.length - 1);
     }
 
     currentIsFavorite = !currentIsFavorite;
@@ -85,6 +105,19 @@ class WordPairGeneratorState extends ChangeNotifier {
     }
 
     favoritePairs.removeAt(favoritePairId);
+
+    var animatedList = favoritesListKey?.currentState as AnimatedListState?;
+
+    if (removedItemBuilder != null) {
+      animatedList?.removeItem(
+        favoritePairId,
+        (BuildContext context, Animation<double> animation) {
+          return removedItemBuilder!(current, context, animation);
+        },
+      );
+    } else {
+      //Process the error, maybe :)
+    }
 
     favoriteIdByHistoryId.removeWhere((k, v) => v == favoritePairId);
 
