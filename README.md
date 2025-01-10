@@ -6,7 +6,8 @@ But then upgraded with better responsive navigation, navigaton animations and pe
 ## Dependencies
 
 - Flutter SDK 3.27
-- [english_words package v4.0.0](https://pub.dev/packages/english_words)
+- [english_words package v4.0.0+](https://pub.dev/packages/english_words)
+- [provider package v6.0.0+](https://pub.dev/packages/provider/)
 
 ## How to build
 

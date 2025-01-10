@@ -87,7 +87,7 @@ class _MyAppLayoutWidgetState extends State<MyAppLayoutWidget> {
 
     return LayoutBuilder(
       builder: (context, constraints) {
-        final showNavRail = constraints.maxWidth >= 600;
+        final showNavRail = constraints.maxWidth > 450;
 
         if (showNavRail) {
           return Scaffold(
@@ -95,7 +95,7 @@ class _MyAppLayoutWidgetState extends State<MyAppLayoutWidget> {
               children: [
                 SafeArea(
                   child: NavigationRail(
-                    extended: true,
+                    extended: constraints.maxWidth > 600,
                     destinations: [
                       NavigationRailDestination(
                         icon: Icon(GeneratorPage.icon),
