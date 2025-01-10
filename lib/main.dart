@@ -48,6 +48,12 @@ class _MyAppLayoutWidgetState extends State<MyAppLayoutWidget> {
         throw UnimplementedError('no widget for $selectedPageId');
     }
 
+    currentPage = AnimatedSwitcher(
+      // offset: Offset(1.0, 0),
+      duration: Duration(milliseconds: 300),
+      child: currentPage,
+    );
+
     return LayoutBuilder(
       builder: (context, constraints) {
         final showNavRail = constraints.maxWidth > 450;
