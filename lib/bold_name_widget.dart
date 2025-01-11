@@ -19,6 +19,7 @@ class BoldNameWidget extends StatelessWidget {
 
     return Card(
       color: theme.colorScheme.primary,
+      margin: const EdgeInsets.all(0),
       child: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Text(

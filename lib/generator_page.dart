@@ -21,10 +21,9 @@ class GeneratorPage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Expanded(
-            child: WordpairsHistoryListView(),
             flex: 3,
+            child: WordpairsHistoryListView(),
           ),
-          SizedBox(height: 16),
           BoldNameWidget(name: appState.current),
           SizedBox(height: 16),
           Row(
@@ -62,8 +61,6 @@ class WordpairsHistoryListView extends StatefulWidget {
 }
 
 class _WordpairsHistoryListViewState extends State<WordpairsHistoryListView> {
-  final _key = GlobalKey();
-
   static const Gradient _topMaskingGradient = LinearGradient(
       colors: [Colors.transparent, Colors.black],
       stops: [0.0, 0.5],
@@ -73,33 +70,36 @@ class _WordpairsHistoryListViewState extends State<WordpairsHistoryListView> {
   @override
   Widget build(BuildContext context) {
     final appState = context.watch<WordPairGeneratorState>();
-    appState.historyListKey = _key;
 
-    return AnimatedList(
-        key: _key,
-        reverse: true,
-        padding: const EdgeInsets.only(top: 100),
-        initialItemCount: appState.history.length,
-        itemBuilder: (context, index, animation) {
-          final pair = appState.history[index];
+    return ShaderMask(
+      shaderCallback: (bounds) => _topMaskingGradient.createShader(bounds),
+      blendMode: BlendMode.dstIn,
+      child: AnimatedList(
+          key: appState.historyListKey,
+          reverse: true,
+          padding: const EdgeInsets.only(top: 100),
+          initialItemCount: appState.history.length,
+          itemBuilder: (context, index, animation) {
+            final pair = appState.history[index];
 
-          return SizeTransition(
-            sizeFactor: animation,
-            child: Center(
-              child: TextButton.icon(
-                onPressed: () {
-                  appState.toggleHistoryPairFavoriteStatus(index);
-                },
-                icon: appState.isHistoryPairFavorite(index)
-                    ? Icon(Icons.favorite)
-                    : SizedBox(),
-                label: Text(
-                  pair.asLowerCase,
-                  semanticsLabel: pair.asPascalCase,
+            return SizeTransition(
+              sizeFactor: animation,
+              child: Center(
+                child: TextButton.icon(
+                  onPressed: () {
+                    appState.toggleHistoryPairFavoriteStatus(index);
+                  },
+                  icon: appState.isHistoryPairFavorite(index)
+                      ? Icon(Icons.favorite)
+                      : SizedBox(),
+                  label: Text(
+                    pair.asLowerCase,
+                    semanticsLabel: pair.asPascalCase,
+                  ),
                 ),
               ),
-            ),
-          );
-        });
+            );
+          }),
+    );
   }
 }

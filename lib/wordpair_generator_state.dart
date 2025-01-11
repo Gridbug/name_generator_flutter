@@ -16,12 +16,12 @@ class WordPairGeneratorState extends ChangeNotifier {
 
   List<WordPair> history = [];
   HashMap<int, int> favoriteIdByHistoryId = HashMap();
-  GlobalKey? historyListKey;
+  GlobalKey historyListKey = GlobalKey();
 
   void getNext() {
     history.insert(0, current);
 
-    var animatedList = historyListKey?.currentState as AnimatedListState?;
+    var animatedList = historyListKey.currentState as AnimatedListState?;
     animatedList?.insertItem(0);
 
     HashMap<int, int> newMap = HashMap();
@@ -44,7 +44,7 @@ class WordPairGeneratorState extends ChangeNotifier {
 
   void toggleCurrentFavoriteStatus() {
     var animatedFavoritesList =
-        favoritesListKey?.currentState as AnimatedListState?;
+        favoritesListKey.currentState as AnimatedListState?;
 
     if (currentIsFavorite) {
       favoritePairs.remove(current);
@@ -107,7 +107,7 @@ class WordPairGeneratorState extends ChangeNotifier {
 
     final removedWordPair = favoritePairs.removeAt(favoritePairId);
 
-    var animatedList = favoritesListKey?.currentState as AnimatedListState?;
+    var animatedList = favoritesListKey.currentState as AnimatedListState?;
 
     if (removedItemBuilder != null) {
       animatedList?.removeItem(
