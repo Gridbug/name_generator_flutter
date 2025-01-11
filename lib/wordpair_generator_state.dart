@@ -43,13 +43,14 @@ class WordPairGeneratorState extends ChangeNotifier {
   }
 
   void toggleCurrentFavoriteStatus() {
-    var animatedList = favoritesListKey?.currentState as AnimatedListState?;
+    var animatedFavoritesList =
+        favoritesListKey?.currentState as AnimatedListState?;
 
     if (currentIsFavorite) {
       favoritePairs.remove(current);
 
       if (removedItemBuilder != null) {
-        animatedList?.removeItem(
+        animatedFavoritesList?.removeItem(
           favoritePairs.length - 1,
           (BuildContext context, Animation<double> animation) {
             return removedItemBuilder!(current, context, animation);
@@ -61,7 +62,7 @@ class WordPairGeneratorState extends ChangeNotifier {
     } else {
       favoritePairs.add(current);
 
-      animatedList?.insertItem(favoritePairs.length - 1);
+      animatedFavoritesList?.insertItem(favoritePairs.length - 1);
     }
 
     currentIsFavorite = !currentIsFavorite;
@@ -104,7 +105,7 @@ class WordPairGeneratorState extends ChangeNotifier {
       currentIsFavorite = false;
     }
 
-    favoritePairs.removeAt(favoritePairId);
+    final removedWordPair = favoritePairs.removeAt(favoritePairId);
 
     var animatedList = favoritesListKey?.currentState as AnimatedListState?;
 
@@ -112,7 +113,7 @@ class WordPairGeneratorState extends ChangeNotifier {
       animatedList?.removeItem(
         favoritePairId,
         (BuildContext context, Animation<double> animation) {
-          return removedItemBuilder!(current, context, animation);
+          return removedItemBuilder!(removedWordPair, context, animation);
         },
       );
     } else {
