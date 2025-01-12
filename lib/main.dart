@@ -3,7 +3,6 @@ import 'package:flutter_application_1/generator_page.dart';
 import 'package:flutter_application_1/my_favorites_page.dart';
 import 'package:flutter_application_1/wordpair_generator_state.dart';
 import 'package:provider/provider.dart';
-import 'package:english_words/english_words.dart';
 
 void main() {
   runApp(const MyApp());
