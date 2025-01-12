@@ -53,13 +53,9 @@ class _FavoritesListViewState extends State<FavoritesListView> {
     return AnimatedList(
       key: widget.appState.favoritesListKey,
       reverse: true,
-      initialItemCount: widget.appState.favoritePairs.length + 1,
+      initialItemCount: widget.appState.favoritePairs.length,
+      padding: const EdgeInsets.only(bottom: 20),
       itemBuilder: (context, index, animation) {
-        if (index == 0) {
-          return SizedBox(height: 20);
-        }
-        index = index - 1;
-
         final WordPair p = widget.appState.favoritePairs[index];
 
         return Row(
