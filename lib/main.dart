@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/generator_page.dart';
-import 'package:flutter_application_1/my_favorites_page.dart';
+import 'package:flutter_application_1/generator_page/generator_page.dart';
+import 'package:flutter_application_1/my_favorites_page/my_favorites_page.dart';
+import 'package:flutter_application_1/top_level_resources.dart';
 import 'package:flutter_application_1/wordpair_generator_state.dart';
 import 'package:provider/provider.dart';
 
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => WordPairGeneratorState(),
       child: MaterialApp(
-        title: 'Namer App',
+        title: ResTopLevelStrings.appName,
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),
           useMaterial3: true,
@@ -33,25 +34,18 @@ class MyAppLayoutWidget extends StatefulWidget {
 }
 
 class _MyAppLayoutWidgetState extends State<MyAppLayoutWidget> {
-  int selectedPageId = 0;
+  int _selectedPageId = 0;
+
+  final GlobalKey<NavigatorState> navigationBarNavigatorKey =
+      GlobalKey<NavigatorState>();
 
   @override
   Widget build(BuildContext context) {
-    Widget currentPage;
-    switch (selectedPageId) {
-      case 0:
-        currentPage = GeneratorPage();
-      case 1:
-        currentPage = MyFavoritesPage();
-      default:
-        throw UnimplementedError('no widget for $selectedPageId');
-    }
-
-    currentPage = AnimatedSwitcher(
-      // offset: Offset(1.0, 0),
-      duration: Duration(milliseconds: 300),
-      child: currentPage,
-    );
+    // currentPage = AnimatedSwitcher(
+    //   // offset: Offset(1.0, 0),
+    //   duration: Duration(milliseconds: 300),
+    //   child: currentPage,
+    // );
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -74,40 +68,33 @@ class _MyAppLayoutWidgetState extends State<MyAppLayoutWidget> {
                         label: Text(MyFavoritesPage.name),
                       ),
                     ],
-                    selectedIndex: selectedPageId,
+                    selectedIndex: _selectedPageId,
                     onDestinationSelected: (navDestinationId) {
-                      setState(() {
-                        selectedPageId = navDestinationId;
-                      });
+                      NavigatorState? navbarNavigatorState =
+                          navigationBarNavigatorKey.currentState;
+
+                      navbarNavigatorState
+                          ?.popAndPushNamed(navDestinationId.toString());
                     },
                   ),
                 ),
-                Expanded(
-                  child: Container(
-                    color: Theme.of(context).colorScheme.primaryContainer,
-                    child: currentPage,
-                  ),
-                ),
+                _buildMediumOrWiderSizedBody(context),
               ],
             ),
           );
         } else {
           return Scaffold(
-            body: Center(
-              child: Container(
-                color: Theme.of(context).colorScheme.primaryContainer,
-                child: currentPage,
-              ),
-            ),
+            body: _buildCompactSizedBody(context),
             bottomNavigationBar: SafeArea(
               child: BottomNavigationBar(
                 onTap: (itemId) {
-                  setState(() {
-                    selectedPageId = itemId;
-                  });
+                  NavigatorState? navbarNavigatorState =
+                      navigationBarNavigatorKey.currentState;
+
+                  navbarNavigatorState?.popAndPushNamed(itemId.toString());
                 },
                 elevation: 0,
-                currentIndex: selectedPageId,
+                currentIndex: _selectedPageId,
                 items: [
                   BottomNavigationBarItem(
                     label: GeneratorPage.name,
@@ -124,5 +111,54 @@ class _MyAppLayoutWidgetState extends State<MyAppLayoutWidget> {
         }
       },
     );
+  }
+
+  Widget _buildCompactSizedBody(BuildContext context) {
+    return Navigator(
+      key: navigationBarNavigatorKey,
+      initialRoute: "0",
+      onGenerateRoute: (settings) => MaterialPageRoute(
+        builder: (context) {
+          return Center(
+            child: Container(
+              color: Theme.of(context).colorScheme.primaryContainer,
+              child: settings.name == null
+                  ? _buildSelectedPage(0)
+                  : _buildSelectedPage(int.parse(settings.name!, radix: 10)),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _buildMediumOrWiderSizedBody(BuildContext context) {
+    return Navigator(
+      key: navigationBarNavigatorKey,
+      initialRoute: "0",
+      onGenerateRoute: (settings) => MaterialPageRoute(
+        builder: (context) {
+          return Expanded(
+            child: Container(
+              color: Theme.of(context).colorScheme.primaryContainer,
+              child: settings.name == null
+                  ? _buildSelectedPage(0)
+                  : _buildSelectedPage(int.parse(settings.name!, radix: 10)),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _buildSelectedPage(final int pageId) {
+    switch (pageId) {
+      case 0:
+        return GeneratorPage();
+      case 1:
+        return MyFavoritesPage();
+      default:
+        throw UnimplementedError('no widget for $_selectedPageId');
+    }
   }
 }

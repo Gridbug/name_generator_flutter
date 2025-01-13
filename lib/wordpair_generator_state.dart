@@ -10,30 +10,30 @@ class WordPairGeneratorState extends ChangeNotifier {
   WordPair current = WordPair.random();
   bool currentIsFavorite = false;
 
-  List<WordPair> favoritePairs = [];
+  List<WordPair> favoriteWordpairsRepository = [];
+
+  List<WordPair> wordpairsHistoryRepository = [];
+
   GlobalKey favoritesListKey = GlobalKey();
   RemovedItemBuilder<WordPair>? removedItemBuilder;
 
-  List<WordPair> history = [];
   HashMap<int, int> favoriteIdByHistoryId = HashMap();
   GlobalKey historyListKey = GlobalKey();
 
   void getNext() {
-    history.insert(0, current);
+    wordpairsHistoryRepository.insert(0, current);
 
     var animatedList = historyListKey.currentState as AnimatedListState?;
     animatedList?.insertItem(0);
 
     HashMap<int, int> newMap = HashMap();
-
     for (final key in favoriteIdByHistoryId.keys) {
       newMap[key + 1] = favoriteIdByHistoryId[key]!;
     }
-
     favoriteIdByHistoryId = newMap;
 
     if (currentIsFavorite) {
-      favoriteIdByHistoryId[0] = favoritePairs.length - 1;
+      favoriteIdByHistoryId[0] = favoriteWordpairsRepository.length - 1;
     }
 
     current = WordPair.random();
@@ -47,11 +47,11 @@ class WordPairGeneratorState extends ChangeNotifier {
         favoritesListKey.currentState as AnimatedListState?;
 
     if (currentIsFavorite) {
-      favoritePairs.remove(current);
+      favoriteWordpairsRepository.remove(current);
 
       if (removedItemBuilder != null) {
         animatedFavoritesList?.removeItem(
-          favoritePairs.length - 1,
+          favoriteWordpairsRepository.length - 1,
           (BuildContext context, Animation<double> animation) {
             return removedItemBuilder!(current, context, animation);
           },
@@ -60,9 +60,9 @@ class WordPairGeneratorState extends ChangeNotifier {
         //Process the error, maybe :)
       }
     } else {
-      favoritePairs.add(current);
+      favoriteWordpairsRepository.add(current);
 
-      animatedFavoritesList?.insertItem(favoritePairs.length - 1);
+      animatedFavoritesList?.insertItem(favoriteWordpairsRepository.length - 1);
     }
 
     currentIsFavorite = !currentIsFavorite;
@@ -74,10 +74,10 @@ class WordPairGeneratorState extends ChangeNotifier {
     if (favoriteIdByHistoryId.containsKey(historyPairId)) {
       final int favoriteId = favoriteIdByHistoryId[historyPairId]!;
 
-      favoritePairs.removeAt(favoriteId);
+      favoriteWordpairsRepository.removeAt(favoriteId);
       favoriteIdByHistoryId.remove(historyPairId);
 
-      if (favoriteId < favoritePairs.length) {
+      if (favoriteId < favoriteWordpairsRepository.length) {
         for (final key in favoriteIdByHistoryId.keys) {
           if (favoriteIdByHistoryId[key]! > favoriteId) {
             favoriteIdByHistoryId[key] = favoriteIdByHistoryId[key]! - 1;
@@ -85,8 +85,10 @@ class WordPairGeneratorState extends ChangeNotifier {
         }
       }
     } else {
-      favoritePairs.add(history[historyPairId]);
-      favoriteIdByHistoryId[historyPairId] = favoritePairs.length - 1;
+      favoriteWordpairsRepository
+          .add(wordpairsHistoryRepository[historyPairId]);
+      favoriteIdByHistoryId[historyPairId] =
+          favoriteWordpairsRepository.length - 1;
     }
 
     notifyListeners();
@@ -101,11 +103,13 @@ class WordPairGeneratorState extends ChangeNotifier {
   }
 
   void removeFromFavorites(final int favoritePairId) {
-    if (favoritePairs[favoritePairId] == current && currentIsFavorite) {
+    if (favoriteWordpairsRepository[favoritePairId] == current &&
+        currentIsFavorite) {
       currentIsFavorite = false;
     }
 
-    final removedWordPair = favoritePairs.removeAt(favoritePairId);
+    final removedWordPair =
+        favoriteWordpairsRepository.removeAt(favoritePairId);
 
     var animatedList = favoritesListKey.currentState as AnimatedListState?;
 
@@ -122,7 +126,7 @@ class WordPairGeneratorState extends ChangeNotifier {
 
     favoriteIdByHistoryId.removeWhere((k, v) => v == favoritePairId);
 
-    if (favoritePairId < favoritePairs.length) {
+    if (favoritePairId < favoriteWordpairsRepository.length) {
       for (final key in favoriteIdByHistoryId.keys) {
         if (favoriteIdByHistoryId[key]! > favoritePairId) {
           favoriteIdByHistoryId[key] = favoriteIdByHistoryId[key]! - 1;

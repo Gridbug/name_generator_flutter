@@ -13,7 +13,7 @@ class MyFavoritesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     var appState = context.watch<WordPairGeneratorState>();
 
-    if (appState.favoritePairs.isEmpty) {
+    if (appState.favoriteWordpairsRepository.isEmpty) {
       return Center(
         child: Text('No favorites yet.'),
       );
@@ -53,10 +53,10 @@ class _FavoritesListViewState extends State<FavoritesListView> {
     return AnimatedList(
       key: widget.appState.favoritesListKey,
       reverse: true,
-      initialItemCount: widget.appState.favoritePairs.length,
+      initialItemCount: widget.appState.favoriteWordpairsRepository.length,
       padding: const EdgeInsets.only(bottom: 20),
       itemBuilder: (context, index, animation) {
-        final WordPair p = widget.appState.favoritePairs[index];
+        final WordPair p = widget.appState.favoriteWordpairsRepository[index];
 
         return Row(
           children: [

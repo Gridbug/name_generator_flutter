@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/bold_name_widget.dart';
+import 'package:flutter_application_1/generator_page/bold_name_widget.dart';
 import 'package:flutter_application_1/wordpair_generator_state.dart';
 import 'package:provider/provider.dart';
 
@@ -77,9 +77,9 @@ class _WordpairsHistoryListViewState extends State<WordpairsHistoryListView> {
           key: appState.historyListKey,
           reverse: true,
           padding: const EdgeInsets.only(top: 100),
-          initialItemCount: appState.history.length,
+          initialItemCount: appState.wordpairsHistoryRepository.length,
           itemBuilder: (context, index, animation) {
-            final pair = appState.history[index];
+            final pair = appState.wordpairsHistoryRepository[index];
 
             return SizeTransition(
               sizeFactor: animation,
