@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 
 class GeneratorPage extends StatelessWidget {
   static const name = 'Generator';
+  static const routeName = 'generator';
   static const icon = Icons.cyclone;
 
   @override

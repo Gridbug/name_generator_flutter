@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 
 class MyFavoritesPage extends StatelessWidget {
   static const name = 'Favorite names';
+  static const String routeName = "favorites";
   static const icon = Icons.favorite;
 
   const MyFavoritesPage({super.key});
