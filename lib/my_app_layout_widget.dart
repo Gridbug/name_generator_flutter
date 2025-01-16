@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/generator_page/generator_page.dart';
-import 'package:flutter_application_1/my_favorites_page/my_favorites_page.dart';
+import 'package:flutter_application_1/name_generation/generator_page/generator_page.dart';
+import 'package:flutter_application_1/name_generation/my_favorites_page/my_favorites_page.dart';
 import 'package:go_router/go_router.dart';
 
 class MyAppLayoutWidget extends StatefulWidget {

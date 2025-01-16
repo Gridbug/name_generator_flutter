@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/generator_page/generator_page.dart';
+import 'package:flutter_application_1/name_generation/generator_page/generator_page.dart';
 import 'package:flutter_application_1/my_app_layout_widget.dart';
-import 'package:flutter_application_1/my_favorites_page/my_favorites_page.dart';
+import 'package:flutter_application_1/name_generation/my_favorites_page/my_favorites_page.dart';
+import 'package:flutter_application_1/name_generation/persistance_classes/fancy_name_repository_impl.dart';
 import 'package:flutter_application_1/top_level_resources.dart';
 import 'package:flutter_application_1/wordpair_generator_state.dart';
 import 'package:provider/provider.dart';
@@ -11,6 +12,8 @@ void main() => runApp(const MyApp());
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final _shellNavigatorKey = GlobalKey<NavigatorState>();
+
+final _fancyNamesRepo = FancyNameMemoryRepository();
 
 final _appRouter = GoRouter(
   navigatorKey: _rootNavigatorKey,
@@ -57,7 +60,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => WordPairGeneratorState(),
+      create: (context) => WordPairGeneratorState(_fancyNamesRepo),
       child: MaterialApp.router(
         title: ResTopLevelStrings.appName,
         theme: ThemeData(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/generator_page/bold_name_widget.dart';
+import 'package:flutter_application_1/name_generation/domain_model/fancy_name.dart';
+import 'package:flutter_application_1/name_generation/generator_page/bold_name_widget.dart';
 import 'package:flutter_application_1/wordpair_generator_state.dart';
 import 'package:provider/provider.dart';
 
@@ -24,7 +25,7 @@ class GeneratorPage extends StatelessWidget {
             flex: 3,
             child: WordpairsHistoryListView(),
           ),
-          BoldNameWidget(name: appState.current),
+          BoldNameWidget(name: appState.current.pair),
           SizedBox(height: 16),
           Row(
             mainAxisSize: MainAxisSize.min,
@@ -70,6 +71,7 @@ class _WordpairsHistoryListViewState extends State<WordpairsHistoryListView> {
   @override
   Widget build(BuildContext context) {
     final appState = context.watch<WordPairGeneratorState>();
+    final List<FancyName> history = appState.getFancyNamesHistory();
 
     return ShaderMask(
       shaderCallback: (bounds) => _topMaskingGradient.createShader(bounds),
@@ -78,23 +80,21 @@ class _WordpairsHistoryListViewState extends State<WordpairsHistoryListView> {
           key: appState.historyListKey,
           reverse: true,
           padding: const EdgeInsets.only(top: 100),
-          initialItemCount: appState.wordpairsHistoryRepository.length,
+          initialItemCount: history.length,
           itemBuilder: (context, index, animation) {
-            final pair = appState.wordpairsHistoryRepository[index];
-
             return SizeTransition(
               sizeFactor: animation,
               child: Center(
                 child: TextButton.icon(
                   onPressed: () {
-                    appState.toggleHistoryPairFavoriteStatus(index);
+                    appState.toggleHistoryPairFavoriteStatus(history[index].id);
                   },
-                  icon: appState.isHistoryPairFavorite(index)
+                  icon: history[index].isFavorite
                       ? Icon(Icons.favorite)
                       : SizedBox(),
                   label: Text(
-                    pair.asLowerCase,
-                    semanticsLabel: pair.asPascalCase,
+                    history[index].pair.asLowerCase,
+                    semanticsLabel: history[index].pair.asPascalCase,
                   ),
                 ),
               ),

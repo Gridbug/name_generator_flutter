@@ -1,5 +1,6 @@
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/name_generation/domain_model/fancy_name.dart';
 import 'package:flutter_application_1/wordpair_generator_state.dart';
 import 'package:provider/provider.dart';
 
@@ -14,7 +15,7 @@ class MyFavoritesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     var appState = context.watch<WordPairGeneratorState>();
 
-    if (appState.favoriteWordpairsRepository.isEmpty) {
+    if (appState.getFavoriteFancyNames().isEmpty) {
       return Center(
         child: Text('No favorites yet.'),
       );
@@ -51,13 +52,16 @@ class _FavoritesListViewState extends State<FavoritesListView> {
 
   @override
   Widget build(BuildContext context) {
+    final List<FancyName> favoriteNames =
+        widget.appState.getFavoriteFancyNames();
+
     return AnimatedList(
       key: widget.appState.favoritesListKey,
       reverse: true,
-      initialItemCount: widget.appState.favoriteWordpairsRepository.length,
+      initialItemCount: favoriteNames.length,
       padding: const EdgeInsets.only(bottom: 20),
       itemBuilder: (context, index, animation) {
-        final WordPair p = widget.appState.favoriteWordpairsRepository[index];
+        final WordPair p = favoriteNames[index].pair;
 
         return Row(
           children: [
@@ -74,7 +78,8 @@ class _FavoritesListViewState extends State<FavoritesListView> {
                   ),
                   IconButton(
                     onPressed: () {
-                      widget.appState.removeFromFavorites(index);
+                      widget.appState
+                          .removeFromFavorites(favoriteNames[index].id);
                     },
                     icon: Icon(Icons.close),
                   ),
