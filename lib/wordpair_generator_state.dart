@@ -2,9 +2,30 @@ import 'dart:collection';
 
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
+import 'package:json_annotation/json_annotation.dart';
+
+part 'wordpair_generator_state.g.dart';
 
 typedef RemovedItemBuilder<T> = Widget Function(
     T item, BuildContext context, Animation<double> animation);
+
+@JsonSerializable()
+class FancyName {
+  @JsonKey(
+    toJson: _wordpairToJson,
+    fromJson: _wordpairFromJson,
+  )
+  final WordPair pair;
+
+  final bool isFavorite;
+
+  FancyName(this.pair, this.isFavorite);
+
+  static List<String> _wordpairToJson(final WordPair pair) =>
+      [pair.first, pair.second];
+  static WordPair _wordpairFromJson(final List<String> json) =>
+      WordPair(json.first, json.last);
+}
 
 class WordPairGeneratorState extends ChangeNotifier {
   WordPair current = WordPair.random();
