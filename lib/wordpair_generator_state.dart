@@ -29,7 +29,9 @@ class WordPairGeneratorState extends ChangeNotifier {
   }
 
   List<FancyName> getFancyNamesHistory() {
-    return fancyNameRepository.getHistory();
+    final fullHistory = fancyNameRepository.getHistory();
+
+    return fullHistory.getRange(1, fullHistory.length).toList();
   }
 
   List<FancyName> getFavoriteFancyNames() {
@@ -40,7 +42,11 @@ class WordPairGeneratorState extends ChangeNotifier {
     var animatedFavoritesList =
         favoritesListKey.currentState as AnimatedListState?;
 
-    if (fancyNameRepository.isFancyNameFavorite(current.id)) {
+    bool wasFavorite = fancyNameRepository.isFancyNameFavorite(current.id);
+
+    fancyNameRepository.toggleFavoriteStatus(current.id);
+
+    if (wasFavorite) {
       if (removedItemBuilder != null) {
         animatedFavoritesList?.removeItem(
           fancyNameRepository.getFavoriteNames().length - 1,
@@ -49,14 +55,12 @@ class WordPairGeneratorState extends ChangeNotifier {
           },
         );
       } else {
-        //Process the error, maybe :)
+        //TODO: Process the error, maybe :)
       }
     } else {
       animatedFavoritesList
           ?.insertItem(fancyNameRepository.getFavoriteNames().length - 1);
     }
-
-    fancyNameRepository.toggleFavoriteStatus(current.id);
 
     notifyListeners();
   }
@@ -75,21 +79,31 @@ class WordPairGeneratorState extends ChangeNotifier {
     return fancyNameRepository.isFancyNameFavorite(fancyNameId);
   }
 
-  void removeFromFavorites(final int favoritePairId) {
-    var animatedList = favoritesListKey.currentState as AnimatedListState?;
+  void removeFromFavorites(final int fancyNameId) {
+    final FancyName? targetFancyName =
+        fancyNameRepository.getBy(id: fancyNameId);
 
-    final removedFancyName = fancyNameRepository
-        .getFavoriteNames()
-        .firstWhere((name) => name.id == favoritePairId);
+    if (targetFancyName == null) {
+      return;
+    }
 
     final removedItemPositionalIndex =
-        fancyNameRepository.getFavoriteNames().indexOf(removedFancyName);
+        fancyNameRepository.getFavoriteNames().indexOf(targetFancyName);
+
+    if (removedItemPositionalIndex < 0) {
+      //TODO: Maybe handle the error?)
+      return;
+    }
+
+    fancyNameRepository.setFavoriteStatus(fancyNameId, false);
+
+    var animatedList = favoritesListKey.currentState as AnimatedListState?;
 
     if (removedItemBuilder != null) {
       animatedList?.removeItem(
         removedItemPositionalIndex,
         (BuildContext context, Animation<double> animation) {
-          return removedItemBuilder!(removedFancyName.pair, context, animation);
+          return removedItemBuilder!(targetFancyName.pair, context, animation);
         },
       );
     } else {

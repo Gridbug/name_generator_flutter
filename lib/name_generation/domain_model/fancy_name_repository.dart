@@ -10,4 +10,8 @@ abstract class FancyNameRepository {
   bool toggleFavoriteStatus(final int fancyNameId);
 
   bool isFancyNameFavorite(final int fancyNameId);
+
+  bool setFavoriteStatus(final int fancyNameId, final bool newFavoriteStatus);
+
+  FancyName? getBy({required final int id});
 }
