@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/name_generation/domain_model/fancy_name.dart';
 import 'package:flutter_application_1/name_generation/generator_page/bold_name_widget.dart';
+import 'package:flutter_application_1/name_generation/generator_page/generator_settings_screen.dart';
 import 'package:flutter_application_1/name_generation/wordpair_generator_state.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class GeneratorPage extends StatelessWidget {
@@ -17,37 +19,49 @@ class GeneratorPage extends StatelessWidget {
         ? Icons.favorite
         : Icons.favorite_border_outlined;
 
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Expanded(
-            flex: 3,
-            child: WordpairsHistoryListView(),
-          ),
-          BoldNameWidget(name: appState.current.pair),
-          SizedBox(height: 16),
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ElevatedButton(
-                onPressed: () {
-                  appState.getNext();
-                },
-                child: Text('Next'),
-              ),
-              SizedBox(width: 8),
-              ElevatedButton.icon(
-                onPressed: () {
-                  appState.toggleCurrentFavoriteStatus();
-                },
-                icon: Icon(favoriteButtonIcon),
-                label: Text('Like'),
-              ),
-            ],
-          ),
-          Spacer(flex: 2),
-        ],
+    return SafeArea(
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Row(
+              children: [
+                IconButton(
+                  onPressed: () {
+                    context.go("./${GeneratorSettingsScreen.routeName}");
+                  },
+                  icon: Icon(Icons.settings),
+                ),
+              ],
+            ),
+            Expanded(
+              flex: 3,
+              child: WordpairsHistoryListView(),
+            ),
+            BoldNameWidget(name: appState.current.pair),
+            SizedBox(height: 16),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    appState.getNext();
+                  },
+                  child: Text('Next'),
+                ),
+                SizedBox(width: 8),
+                ElevatedButton.icon(
+                  onPressed: () {
+                    appState.toggleCurrentFavoriteStatus();
+                  },
+                  icon: Icon(favoriteButtonIcon),
+                  label: Text('Like'),
+                ),
+              ],
+            ),
+            Spacer(flex: 2),
+          ],
+        ),
       ),
     );
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/name_generation/generator_page/generator_page.dart';
 import 'package:flutter_application_1/my_app_layout_widget.dart';
+import 'package:flutter_application_1/name_generation/generator_page/generator_settings_screen.dart';
 import 'package:flutter_application_1/name_generation/my_favorites_page/my_favorites_page.dart';
 import 'package:flutter_application_1/name_generation/persistance_classes/fancy_name_repository_impl.dart';
 import 'package:flutter_application_1/top_level_resources.dart';
@@ -28,14 +29,14 @@ final _appRouter = GoRouter(
         GoRoute(
           path: '/${GeneratorPage.routeName}',
           builder: (context, _) => GeneratorPage(),
-          // routes: <RouteBase>[
-          //   GoRoute(
-          //     path: 'settings',
-          //     builder: (BuildContext context, GoRouterState state) {
-          //       return GeneratorSettingsScreen();
-          //     },
-          //   ),
-          // ],
+          routes: <RouteBase>[
+            GoRoute(
+              path: GeneratorSettingsScreen.routeName,
+              builder: (BuildContext context, GoRouterState state) {
+                return GeneratorSettingsScreen();
+              },
+            ),
+          ],
         ),
         GoRoute(
           path: '/${MyFavoritesPage.routeName}',
@@ -68,6 +69,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
         ),
         routerConfig: _appRouter,
+        debugShowCheckedModeBanner: false,
       ),
     );
   }
