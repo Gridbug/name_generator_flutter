@@ -4,7 +4,7 @@ import 'package:flutter_application_1/my_app_layout_widget.dart';
 import 'package:flutter_application_1/name_generation/my_favorites_page/my_favorites_page.dart';
 import 'package:flutter_application_1/name_generation/persistance_classes/fancy_name_repository_impl.dart';
 import 'package:flutter_application_1/top_level_resources.dart';
-import 'package:flutter_application_1/wordpair_generator_state.dart';
+import 'package:flutter_application_1/name_generation/wordpair_generator_state.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 

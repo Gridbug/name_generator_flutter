@@ -1,7 +1,7 @@
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/name_generation/domain_model/fancy_name.dart';
-import 'package:flutter_application_1/wordpair_generator_state.dart';
+import 'package:flutter_application_1/name_generation/wordpair_generator_state.dart';
 import 'package:provider/provider.dart';
 
 class MyFavoritesPage extends StatelessWidget {
